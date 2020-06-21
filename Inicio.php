@@ -70,7 +70,7 @@ $hora=intval($hora);
         </div>
    
 
-        <div class="modal mt-5" id="MostrarMensajes" tabindex="-1" role="dialog">
+        <div class="modal" id="MostrarMensajes" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
