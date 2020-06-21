@@ -36,10 +36,10 @@ $hora=intval($hora);
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">    
-    
+   
     <title>Menu Principal - SiDeSo v2.0</title>
   </head>
-  <body>
+  <body onload="$('#MostrarMensajes').modal('show');">
       <div class="container">
                           
          <div class="d-flex justify-content-center h-100">   
@@ -70,7 +70,32 @@ $hora=intval($hora);
         </div>
    
 
-   
+        <div class="modal mt-5" id="MostrarMensajes" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Anuncios</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 class="text-center">NUEVA ACTUALIZACION 21/6</h3><br>
+                <p class="lead">
+                  - Ahora se pueden editar encuestas sin necesidad de eliminarla y hacerla de nuevo. <br><br>
+                  - Se corrigió el error que había al cargar una persona al grupo familiar (se perdia la ficha de la persona, ahora ya no). <br><br>
+                 - Al abrir la ficha de una persona y buscar las encuestas, van a poder ver quien la realizó. <br><br>
+                 - Se actualizó el campo ultima encuesta (Al buscar algunas personas figuraba el campo ultima encuesta como 2019 cuando ya tenian la 2020, ahora ya aparece la ultima. <br> <br>
+                </p>
+                <h4>   Cualquier sugerencia o error nuevo haganmelo saber! Saludos, Juan.
+                </h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
