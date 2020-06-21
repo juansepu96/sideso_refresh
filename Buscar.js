@@ -88,6 +88,7 @@ function Completar(id){
                     var htmlTags = '<tr class="filaEncuestas">'+
                     '<th scope="row">' + hc[i+1] + '</th>' +
                     '<td>' + hc[i+2] + '</td>'+
+                    '<td>' + hc[i+3] + '</td>'+
                     '<td>' + `<button type="button" class="b-0 p-1 btn btn-primary" onclick="AbrirEncuesta('`+hc[i]+`')"> <i class="far fa-folder-open fa-2x"></i> </button>` + '</td>'+
                     '<td>' + `<button type="button" class="b-0 p-1 btn btn-primary bg-danger" onclick="EliminarEncuesta('`+hc[i]+`')"> <i class="far fa-trash-alt fa-2x"></i>  </button>` + '</td>'+
 

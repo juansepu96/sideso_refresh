@@ -329,7 +329,7 @@ if(isset($_POST['buscarr'])){
                   <a class="nav-link item2" href="#Grupo">Grupo</a>                  
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link item2" href="#Asistencias">Asistencias.</a>
+                  <a class="nav-link item2" href="#Asistencias">Asistencias</a>
                 </li>
                 <li class="nav-item">
                   <a  class="nav-link item2" href="#Documentos">Documentos</a>
@@ -406,6 +406,7 @@ if(isset($_POST['buscarr'])){
                     <tr>
                       <th scope="col">Fecha</th>
                       <th scope="col">Año</th>
+                      <th scope="col">Realizada Por</th>
                       <th scope="col">Abrir</th>
                       <th scope="col">Eliminar</th>
                     </tr>
