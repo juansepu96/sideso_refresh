@@ -264,7 +264,8 @@ function NuevoFamiliar(){
                 alert("Familiar cargado con éxito");
                 $("#VerIntegrante").modal('hide');
                 $("#VerFicha").modal('hide');
-                Completar(dni_titular);
+                id = $("#id_persona").val();
+                Completar(id);
         }else{
             alert("Error al cargar familiar. Contacte al administrador");
         };
