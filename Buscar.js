@@ -85,7 +85,7 @@ function Completar(id){
             var hc = rta.split('@#');
                cantidad = hc.length;
                 for (i=1;i<cantidad;i=i+4){
-                    var htmlTags = '<tr class="filaEncuestas">'+
+                    var htmlTags = '<tr class="filaEncuestas" style="cursor:pointer;" onclick="EditarEncuesta('+hc[i]+');">' +
                     '<th scope="row">' + hc[i+1] + '</th>' +
                     '<td>' + hc[i+2] + '</td>'+
                     '<td>' + hc[i+3] + '</td>'+
@@ -488,6 +488,8 @@ function NuevaEncuesta(){
         alert("Error! Ya existe una encuesta del año en curso. Debe eliminar dicha encuesta para realizar una nueva");
     }else{
         $("#NuevaEncuesta").modal('show');
+        $("#nueva_encuesta").prop('hidden',false);
+            $("#editar_encuesta").prop('hidden',true);
         $("#form-encuesta")[0].reset();
     }
 
@@ -638,4 +640,80 @@ function EliminarDocumento(id){
         alert("Operacion Cancelada!!");
     }
 
+}
+
+function EditarEncuesta(id){
+    $.post("ObtenerEncuesta.php",{valorBusqueda:id}, function(rta) {
+        if(rta!=""){
+            var hc = rta.split('@#');
+            $("#id_encuesta").val(id);
+            $("#tipo_vivienda").val(hc[1]);
+            $("#tenencia_vivienda").val(hc[2]);
+            $("#monto_tenencia_d").val(hc[3]);
+            $("#material_pisos").val(hc[11]);
+            $("#material_paredes").val(hc[12]);
+            $("#cubiera_exterior").val(hc[13]);
+            $("#rev_interior").val(hc[14]);
+            $("#electricidad").val(hc[15]);
+            $("#agua").val(hc[16]);
+            $("#desague").val(hc[17]);
+            $("#gas").val(hc[18]);
+            $("#otros_ingresos").val(hc[19]);
+            $("#otros_bienes").val(hc[4]);
+            $("#sepelio").val(hc[5]);
+            $("#os").val(hc[7]);
+            $("#osocial").val(hc[8]);
+            $("#saud").val(hc[6]);
+            $("#observaciones").val(hc[20]);
+            $("#nueva_encuesta").prop('hidden',true);
+            $("#editar_encuesta").prop('hidden',false);
+            $("#NuevaEncuesta").modal('show');
+        }else{
+            alert("Error. Contacte al administrador");
+        };
+    });    
+
+}
+
+function ActualizarEncuesta(){
+    pregunta = confirm("Esta a punto de actualizar la encuesta. Desea continuar?");
+    if(pregunta){
+        id = $("#id_encuesta").val();
+        tipo = $("#tipo_vivienda").val();
+        tenencia = $("#tenencia_vivienda").val();
+        monto = $("#monto_tenencia").val();
+        pisos = $("#material_pisos").val();
+        paredes = $("#material_paredes").val();
+        cubierta = $("#cubiera_exterior").val();
+        rev = $("#rev_interior").val();
+        electricidad = $("#electricidad").val();
+        agua = $("#agua").val();
+        desague = $("#desague").val();
+        gas = $("#gas").val();
+        otrosing = $("#otros_ingresos").val();
+        otrosbi = $("#otros_bienes").val();
+        sepelio = $("#sepelio").val();
+        sepelioNom = $("#sepelio_nombre").val();
+        os = $("#os").val();
+        osNom = $("#osocial").val();
+        observaciones = $("#observaciones").val();
+        salud = $("#salud").val();
+        testigo="@#";
+        datos = id+testigo+tipo+testigo+tenencia+testigo+monto+testigo+pisos+testigo+paredes+testigo+cubierta+testigo;
+        datos = datos+rev+testigo+electricidad+testigo+agua+testigo+desague+testigo+gas+testigo+otrosing+testigo+otrosbi+testigo;
+        datos = datos+sepelio+testigo+sepelioNom+testigo+os+testigo+osNom+testigo+observaciones+testigo+salud;
+            $.post("ActualizarEncuesta.php",{valorBusqueda:datos}, function(rta) {
+                if(rta=="OK"){
+                    alert("Encuesta Actualizada con éxito!");  
+                    $("#NuevaEncuesta").modal('hide');
+                    persona = $("#id_persona").val();
+                    $("#VerFicha").modal('hide');    
+                    Completar(persona);
+                }else{
+                    alert("Error al actualizar. Contacte al administrador");
+                };
+            }); 
+    }else{
+        alert("Accion cancelada!");
+    };
 }

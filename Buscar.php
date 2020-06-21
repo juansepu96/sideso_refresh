@@ -747,6 +747,7 @@ if(isset($_POST['buscarr'])){
         </button>
       </div>
       <div class="modal-body formulario">
+      <input hidden type="text" id="id_encuesta">
         <form id="form-encuesta" method="post">
               <div class="form-row">
                 <div class="form-group col-md-4">
@@ -901,6 +902,7 @@ if(isset($_POST['buscarr'])){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button hidden type="button" name="editar_encuesta" id="editar_encuesta" class="btn btn-primary bg-danger" onclick="ActualizarEncuesta();">Actualizar Encuesta</button>
         <button type="button" name="nueva_encuesta" id="nueva_encuesta" class="btn btn-primary" onclick="GuardarEncuesta();">Guardar Encuesta</button>
       </div>
       </form>
