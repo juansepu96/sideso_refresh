@@ -192,8 +192,25 @@ margin-left: 4px;
     margin:10px;
 }
 
+.footer{
+	position:absolute;
+    left:0px;
+    right:0px;
+    bottom: 0px;
+    align-content: center;
+}
 
 
-
+.card3{
+    height: 50px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5) !important;
+    color:white;
+    padding:10px;
+    border:1px solid rgba(255, 255, 255, 0.685);
+    border-radius:15px;
+}
 
 

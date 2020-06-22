@@ -67,12 +67,21 @@ $hora=intval($hora);
                 </div>
             </div>
          </div>
-        </div>
-   
+    </div>
 
-        <div class="modal" id="MostrarMensajes" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-xl" role="document">
-            <div class="modal-content">
+  <div class="footer d-flex justify-content-center" >
+    <div> 
+        <div class="card3">        
+            <p class="lead text-center">
+              SiDeSo v2.0  - Un producto de Softweare ® - TODOS LOS DERECHOS RESERVADOS ©
+            </p>           
+        </div>
+     </div>
+  </div>
+
+<div class="modal" id="MostrarMensajes" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Anuncios</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
