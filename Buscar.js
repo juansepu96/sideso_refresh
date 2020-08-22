@@ -151,16 +151,21 @@ function ActualizarPersona(){
     datos = datos+telefono+testigo+celular+testigo+email+testigo+anios+testigo+ingresos+testigo+nacionalidad+testigo+educacion+testigo;
     datos = datos +institucion+testigo+otra+testigo+dni_anterior+testigo+lugar_n+testigo+obs;
 
-    alert (datos);
-
-
     $.post("ActualizarPersona.php",{valorBusqueda:datos}, function(rta) {
        if(rta=="OK"){
-           alert("Persona actualizada!");
+        cuteToast({
+            type: "success", // or 'info', 'error', 'warning'
+            message: "Persona actualizada con éxito.",
+            timer: 5000
+        });
            $('#VerFicha').modal('hide');
            Completar(id);
        }else{
-           alert("Error. Contacte al administrador");
+        cuteToast({
+            type: "error", // or 'info', 'error', 'warning'
+            message: "Error al actualizar persona. Contacte al administrador",
+            timer: 5000
+        });
        };
     });
 
@@ -204,13 +209,21 @@ function ActualizarFamiliar(){
     datos = datos+educacion+testigo+institucion+testigo+otra;    
     $.post("ActualizarFamiliar.php",{valorBusqueda:datos}, function(rta) {
         if(rta=="OK"){
-                alert("Familiar actualizado con éxito");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Familiar actualizado con éxito.",
+                timer: 5000
+            });
                 $("#VerIntegrante").modal('hide');
                 $("#VerFicha").modal('hide');
                 id = $("#id_persona").val();
                 Completar(id);
         }else{
-            alert("Error al actualizar familiar. Contacte al administrador");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Error al actualizar familiar.",
+                timer: 5000
+            });
         };
      });
 
@@ -223,18 +236,30 @@ function BorrarFamiliar(){
         id = $("#id_familiar").val();
         $.post("EliminarFamiliar.php",{valorBusqueda:id}, function(rta) {
             if(rta=="OK"){
-                    alert("Familiar eliminado con éxito");
+                cuteToast({
+                    type: "success", // or 'info', 'error', 'warning'
+                    message: "Familiar eliminado con éxito.",
+                    timer: 5000
+                });
                     $("#VerIntegrante").modal('hide');
                     $("#VerFicha").modal('hide');
                     id = $("#id_persona").val();
                     Completar(id);
             }else{
-                alert("Error al eliminar familiar. Contacte al administrador");
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    message: "Error al eliminar familiar.",
+                    timer: 5000
+                });
             };
          });
 
     }else{
-        alert ("Accion Cancelada");
+        cuteToast({
+            type: "info", // or 'info', 'error', 'warning'
+            message: "Accion cancelada.",
+            timer: 5000
+        });
     }
 }
 
@@ -262,13 +287,21 @@ function NuevoFamiliar(){
     datos = datos+educacion+testigo+institucion+testigo+otra;    
     $.post("NuevoFamiliar.php",{valorBusqueda:datos}, function(rta) {
         if(rta=="OK"){
-                alert("Familiar cargado con éxito");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Familiar cargado con éxito.",
+                timer: 5000
+            });
                 $("#VerIntegrante").modal('hide');
                 $("#VerFicha").modal('hide');
                 id = $("#id_persona").val();
                 Completar(id);
         }else{
-            alert("Error al cargar familiar. Contacte al administrador");
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "Error al guardar familiar",
+                timer: 5000
+            });
         };
      });
 }
@@ -281,6 +314,29 @@ function AbrirDocumento(url){
 function NuevoDocumento(){
     $("#NuevoDocumento").modal('show');
     
+}
+
+function CerrarVerDocumento(){
+    $("#MostrarImagen").modal('hide');
+}
+function CerrarVerAsistencia(){
+    $("#AbrirAsistencia").modal('hide');
+}
+
+function CerrarAcceder(){
+    $("#Acceder").modal('hide');
+}
+
+function CerrarAcceder2(){
+    $("#Acceder2").modal('hide');
+}
+
+function CerrarNuevaEncuesta(){
+    $("#NuevaEncuesta").modal('hide');
+}
+
+function CerrarVerIntegrante(){
+    $("#VerIntegrante").modal('hide');A
 }
 
 function CargarDocumento(){
@@ -297,7 +353,11 @@ function CargarDocumento(){
         processData: false
     })
         .done(function(res){
-            alert("Documento cargado con exito!");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Documento cargado con éxito.",
+                timer: 5000
+            });
             //Aca vamos a obtener los Documentos
             $(".filaDocumentos").remove();
             var persona = $( "#dni" ).val();
@@ -363,14 +423,22 @@ function ActualizarAsistencia(){
     datos = id+"@#"+monto+"@#"+estado+"@#"+observaciones+"@#"+ultima+"@#"+fecha+"@#"+tipo;
     $.post("ActualizarAsistencia.php",{valorBusqueda:datos}, function(rta) {
         if(rta=="OK"){
-            alert("Actualizada con Exito");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Asistencia actualizada con éxito.",
+                timer: 5000
+            });
             $("#AbrirAsistencia").modal('hide');
             $("#form_asistencias")[0].reset();
             $("#VerFicha").modal('hide');
             Completar(persona);
 
         }else{
-            alert("Error. Contacte al administrador");
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "Error al actualizar la asistencia.",
+                timer: 5000
+            });
         };
     });    
 
@@ -397,13 +465,21 @@ function GuardarAsistencia(){
     datos = persona+"@#"+tipo+"@#"+monto+"@#"+observaciones+"@#"+fecha+"@#"+estado;
     $.post("InsertarAsistencia.php",{valorBusqueda:datos}, function(rta) {
         if(rta=="OK"){
-            alert("Nueva Asistencia cargada!");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Asistencia guardada con éxito.",
+                timer: 5000
+            });
             $("#AbrirAsistencia").modal('hide');
             $("#form_asistencias")[0].reset();
             $("#VerFicha").modal('hide');    
             Completar(persona2);
         }else{
-            alert("Error. Contacte al administrador");
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "Error al cargar asistencia",
+                timer: 5000
+            });
         };
     });   
 }
@@ -425,18 +501,30 @@ function EliminarDefinitivo(){
     if((clave == pass) || (clave2==pass)){
         $.post("EliminarAsistencia.php",{valorBusqueda:id}, function(rta) {
             if(rta=="OK"){
-                alert("Asistencia Eliminada!");  
+                cuteToast({
+                    type: "success", // or 'info', 'error', 'warning'
+                    message: "Asistencia eliminada con éxito.",
+                    timer: 5000
+                });
                 $("#Acceder").modal('hide');
                 $("#AbrirAsistencia").modal('hide');
                 $("#VerAsistencias").modal('hide');
                 $("#form_asistencias")[0].reset();
                 Completar(persona);
             }else{
-                alert("Error. Contacte al administrador");
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    message: "Error al eliminar.",
+                    timer: 5000
+                });
             };
         }); 
     }else{
-        alert("CONTRASEÑA INVALIDA. CONTACTE AL ADMINISTRADOR");
+        cuteToast({
+            type: "error", // or 'info', 'error', 'warning'
+            message: "Contraseña incorrecta.",
+            timer: 5000
+        });
         $('#password').val("");
     };
 }
@@ -461,17 +549,29 @@ function EliminarEncuestaDefinitivo(){
     if(clave == pass){
         $.post("EliminarEncuesta.php",{valorBusqueda:id}, function(rta) {
             if(rta=="OK"){
-                alert("Encuesta Eliminada!");  
+                cuteToast({
+                    type: "success", // or 'info', 'error', 'warning'
+                    message: "Encuesta eliminada con éxito.",
+                    timer: 5000
+                }); 
                 $("#Acceder2").modal('hide');
                 $("#form_asistencias")[0].reset();
                 $("#VerFicha").modal('hide');    
                 Completar(persona);
             }else{
-                alert("Error. Contacte al administrador");
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    message: "Error al eliminar encuesta.",
+                    timer: 5000
+                });
             };
         }); 
     }else{
-        alert("CONTRASEÑA INVALIDA. CONTACTE AL ADMINISTRADOR");
+        cuteToast({
+            type: "error", // or 'info', 'error', 'warning'
+            message: "Contraseña incorrecta.",
+            timer: 5000
+        });
         $('#password2').val("");
     };
 
@@ -485,7 +585,11 @@ function NuevaEncuesta(){
     var fecha = new Date();
     var ano = fecha.getFullYear();
     if(ultima==ano){
-        alert("Error! Ya existe una encuesta del año en curso. Debe eliminar dicha encuesta para realizar una nueva");
+        cuteToast({
+            type: "error", // or 'info', 'error', 'warning'
+            message: "ERROR. Ya existe una encuesta del año en curso.",
+            timer: 5000
+        });
     }else{
         $("#NuevaEncuesta").modal('show');
         $("#nueva_encuesta").prop('hidden',false);
@@ -551,17 +655,29 @@ function GuardarEncuesta(){
         datos = datos+sepelio+testigo+sepelioNom+testigo+os+testigo+osNom+testigo+observaciones+testigo+salud;
             $.post("InsertarEncuesta.php",{valorBusqueda:datos}, function(rta) {
                 if(rta=="OK"){
-                    alert("Encuesta Cargada con éxito!");  
+                    cuteToast({
+                        type: "success", // or 'info', 'error', 'warning'
+                        message: "Encuesta guardada con éxito.",
+                        timer: 5000
+                    });
                     $("#NuevaEncuesta").modal('hide');
                     persona = $("#id_persona").val();
                     $("#VerFicha").modal('hide');    
                     Completar(persona);
                 }else{
-                    alert("Error. Contacte al administrador");
+                    cuteToast({
+                        type: "error", // or 'info', 'error', 'warning'
+                        message: "Error al cargar encuesta.",
+                        timer: 5000
+                    });
                 };
             }); 
     }else{
-        alert("Accion cancelada!");
+        cuteToast({
+            type: "info", // or 'info', 'error', 'warning'
+            message: "Accion cancelada",
+            timer: 5000
+        });
     };
 }
 
@@ -598,11 +714,19 @@ function GuardarPersona(){
 
     $.post("InsertarPersona.php",{valorBusqueda:datos}, function(rta) {
         if(rta=="OK"){
-            alert("Persona agregada con éxito!");
+            cuteToast({
+                type: "success", // or 'info', 'error', 'warning'
+                message: "Persona guardada con éxito.",
+                timer: 5000
+            });
             alert("Ahora podrá continuar con la carga.");
             location.reload();
         }else{
-            alert("Error. Contacte al administrador");
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "Error. al guardar persona.",
+                timer: 5000
+            });
         };
      });
  
@@ -615,7 +739,11 @@ function EliminarDocumento(id){
     if(conf){
         $.post("EliminarDocumento.php",{valorBusqueda:id}, function(rta) {
             if(rta=="OK"){
-                alert("Documento eliminado con éxito!");
+                cuteToast({
+                    type: "success", // or 'info', 'error', 'warning'
+                    message: "Documento eliminado con éxito.",
+                    timer: 5000
+                });
                 $(".filaDocumentos").remove();
                 var persona = $( "#dni" ).val();
                 $.post("ObtenerDocumentos.php",{valorBusqueda:persona}, function(rta) {
@@ -633,11 +761,19 @@ function EliminarDocumento(id){
                  });
 
             }else{
-                alert("Error. Contacte al administrador");
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    message: "Error al eliminar documento.",
+                    timer: 5000
+                });
             };
          });
     }else{
-        alert("Operacion Cancelada!!");
+        cuteToast({
+            type: "info", // or 'info', 'error', 'warning'
+            message: "Accion cancelada.",
+            timer: 5000
+        });
     }
 
 }
@@ -669,7 +805,11 @@ function EditarEncuesta(id){
             $("#editar_encuesta").prop('hidden',false);
             $("#NuevaEncuesta").modal('show');
         }else{
-            alert("Error. Contacte al administrador");
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "Contacte al administrador.",
+                timer: 5000
+            });
         };
     });    
 
@@ -704,16 +844,28 @@ function ActualizarEncuesta(){
         datos = datos+sepelio+testigo+sepelioNom+testigo+os+testigo+osNom+testigo+observaciones+testigo+salud;
             $.post("ActualizarEncuesta.php",{valorBusqueda:datos}, function(rta) {
                 if(rta=="OK"){
-                    alert("Encuesta Actualizada con éxito!");  
+                    cuteToast({
+                        type: "success", // or 'info', 'error', 'warning'
+                        message: "Encuesta actualizada con éxito.",
+                        timer: 5000
+                    });
                     $("#NuevaEncuesta").modal('hide');
                     persona = $("#id_persona").val();
                     $("#VerFicha").modal('hide');    
                     Completar(persona);
                 }else{
-                    alert("Error al actualizar. Contacte al administrador");
+                    cuteToast({
+                        type: "error", // or 'info', 'error', 'warning'
+                        message: "Error al actualizar",
+                        timer: 5000
+                    });
                 };
             }); 
     }else{
-        alert("Accion cancelada!");
+        cuteToast({
+            type: "info", // or 'info', 'error', 'warning'
+            message: "Accion cancelada.",
+            timer: 5000
+        });
     };
 }

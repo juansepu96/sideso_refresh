@@ -11,7 +11,7 @@ $rta="";
         $id=$Encuesta['ID'];
         $timestamp = strtotime($Encuesta['fecha']);
         $fecha = date("d/m/Y", $timestamp);
-        $anio=$Encuesta['anio'];
+        $anio=date("Y",$timestamp);
         $realizada_por=$Encuesta['realizada_por'];
         $rta=$rta."@#".$id."@#".$fecha."@#".$anio."@#".$realizada_por;
 	}

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> 
+    <style>
+      .filaPersonas:hover{
+        cursor: pointer;
+        color:color !important;
+        font-weight: bold;
+        background:white !important;
+      }
+      .flotante {
+        position: fixed; /* Fixed/sticky position */
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 20px; /* Place the button 30px from the right */
+        z-index: 99; /* Make sure it does not overlap */
+        border: none; /* Remove borders */
+        outline: none; /* Remove outline */
+        background-color: white; /* Set a background color */
+        color: white; /* Text color */
+        cursor: pointer; /* Add a mouse pointer on hover */
+        padding: 5px; /* Some padding */
+        border-radius: 10px; /* Rounded corners */
+        width:50px;
+      }
+      .flotante img{
+        width:100%;
+      }
+    </style>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script> <!--Moments Library-->
+    <script src="./cute-alert.js"></script>
+   <title>Personas - Direccion de Mujeres - S.D.S.</title>
+</head>
+<body onload="CargarPersonas();">
+
+<nav class="navbar text-center navbar-expand-lg navbar-dark bg-dark navbar-toggleable-sm sticky-top">
+        <a class="navbar-brand" href="InicioMujeres.html">
+            Direccion de Mujeres - Sec. de Desarrollo Social.
+         </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <ul class="navbar-nav text-center">
+      <li class="nav-item active">
+        <a class="nav-link" href="InicioMujeres.html">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Cerrar.php">Cerrar Sesion</a>
+      </li> 
+           
+    </ul>
+  </div>
+</nav>
+
+<div class="buscador mt-5 mr-5 ml-5 p-4 ">        
+      <h3 class="welcome">BUSCAR LEGAJO</h3>
+      
+        <div class="row text-center">
+            <div class="col-lg-11 col-xl-11 col-xs-6 col-md-6">
+                <input type="text" class="form-control" id="buscar">
+            </div>
+            <div class="col-1">
+              <button type="submit" onclick="BuscarPersonas();" class="btn btn-primary" class="form-control"><i class="fas fa-search fa-1x"></i></button>
+            </div>         
+        </div>
+       
+</div>
+
+<div id="tabla" class="buscador mt-2"> 
+  <button type="button" class="btn btn-primary m-2 " style="float:right" onclick="NuevaPersona()">Nueva</button>
+  <div class="table-responsive">
+  <table class="table table-hover mt-2 text-center" style="color:white;" id="tabla-personas">
+        <thead>
+           <tr class="text-center">
+              <td>DNI</td>
+              <td>Nombre</td>
+              <td>F. Nacimiento</td>
+              <td>Ult. Intervencion</td>
+              <td>En Desarrollo</td>
+           </tr>
+        </thead>
+        <tbody>        
+             
+       </tbody>
+   </table>
+   </div>
+  </div>
+
+<!--Aca voy a poner un form flotante para ver Ficha de la persona-->
+<div class="modal" id="VerFicha" tabindex="-1" role="dialog">
+  <div class="modal-dialog  modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ver Persona</h5> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body formulario">
+        <form id="formVerFicha">
+            <input hidden type="number" class="form-control" id="id_persona" name="id_persona"  placeholder="Ej: Juan">
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label for="Nombre">Nombre</label>
+                  <input  required  type="text" class="form-control" id="nombre" name="nombre"  data-toggle="tooltip" data-placement="bottom" title="Ej. Juan">
+                </div>
+              
+                <div class="form-group col-md-3">
+                  <label for="dni">DNI</label>
+                  <input  readonly  type="number" class="form-control" id="dni" name="dni" data-toggle="tooltip" data-placement="bottom" title="Sin puntos ni coma">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                  <input  required  type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="domicilio">Domicilio</label>
+                  <input  required  type="text" class="form-control" id="domicilio" name="domicilio" data-toggle="tooltip" data-placement="bottom" title="Av. Siempreviva 742">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="telefono">Tel.</label>
+                  <input  required  type="number" class="form-control" id="telefono"  name="telefono" >
+                </div>          
+              </div>
+
+              <ul id="menu-2" class="nav nav-tabs" style="cursor:pointer;">
+                <li  class="nav-item">
+                  <a class="nav-link item2" href="#intervenciones">Intervenciones</a>                  
+                </li>
+                <li class="nav-item">
+                  <a  class="nav-link item2" href="#Documentos">Documentos</a>
+                </li>
+                <li class="nav-item">
+                  <a  class="nav-link item2" href="#Observaciones">Observaciones</a>
+                </li>
+             </ul>
+
+              <!-- Paneles de pestañas ocultos -->             
+            <div class="tab-content border mb-3">   
+              
+              <div id="intervenciones" class="container tab-pane fade"><br>
+                <button type="button" class="btn btn-primary mb-2" onclick="NuevaIntervencion();">Nueva Intervencion</button>  <br>
+                <div class="table-responsive">
+                  <table class="table table-hover" id="tabla-intervenciones">
+                  <thead>
+                    <tr>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Descripcion</th>
+                      <th scope="col">Intervino</th>
+                    </tr>
+                  </thead>
+                  <tbody>                      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+             
+              <div id="Documentos" class="container tab-pane fade"><br>
+                  <button type="button" class="btn btn-primary mb-2" onclick="NuevoDocumento();">Nuevo Documento</button>  <br>
+                  <div class="table-responsive">
+                    <table class="table table-hover" id="tabla-documentos">
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">URL</th>
+                        <th scope="col">Abrir</th>
+                        <th scope="col">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody>                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <div id="Observaciones" class="container tab-pane fade mb-2"><br>
+                <p class="lead">Recuerde que estas observaciones son de uso INTERNO y que no se veran reflejadas en la encuesta</p>
+                 <textarea id="texto_observaciones" class="form-control"></textarea>
+              </div>               
+      </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button hidden type="button" name="actualizar" id="actualizar" class="btn btn-primary btn2" onclick="ActualizarPersona();">Actualizar</button>
+        <button hidden type="button" name="guardar_persona" id="guardar_persona" class="btn btn-primary btn2" onclick="GuardarPersona();">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal mt-5 pt-5" id="NuevaIntervencion" tabindex="-1" role="dialog"> <!--Modal Nueva intervencion-->
+  <div class="modal-dialog  modal-xl " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Intervención</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="fecha_inter">Fecha</label>
+              <input type="date" class="form-control" id="fecha_inter">
+            </div>
+            <div class="form-group col-md-9">
+                <label for="detalle_inter">Descripcion</label>
+                <textarea id="detalle_inter" class="form-control">  </textarea>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="CerrarIntertenvencion();">Cerrar</button>
+        <button type="button" class="btn btn-primary"  onclick="CargarIntervencion();" data-dismiss="modal">Cargar Internvencion</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Aca voy a poner un form flotante para ver el documento tipo Popup-->
+<div class="modal" id="MostrarImagen" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ver Imagen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="ImagenHC_1" height="400px" width="100%">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Aca voy a poner un form flotante para nuevo documento tipo Popup-->
+<div class="modal" id="NuevoDocumento" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Documento</h5>
+        <button type="button" class="close" onclick="CerrarNuevoDocumento();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form enctype="multipart/form-data" id="formNuevoDocumento">
+        <div class="form-row">
+                     <div class="form-group col-md-12">
+                        <label for="ImagenHC">Documento</label>
+                       <input type="file" required class="form-control" id="ImagenHC" name="ImagenHC" >
+                      </div>
+        </div>
+        <div class="form-row">
+                     <div class="form-group col-md-12">
+                        <label for="DescripcionDocumento">Descripcion</label>
+                       <input type="text" required class="form-control" id="DescripcionDocumento" name="DescripcionDocumento" placeholder="Ej: DNI Frente">
+                      </div>
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="CerrarNuevoDocumento();">Cerrar</button>
+        <button type="button" class="btn btn-primary"  onclick="CargarDocumento();" >Cargar Documento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Ficha SOCIAL-->
+<div class="modal" id="VerFichaSocial" tabindex="-1" role="dialog">
+  <div class="modal-dialog  modal-xl" role="document" >
+    <div class="modal-content" style="background-color:lightyellow">
+      <div class="modal-header">
+        <h5 class="modal-title">FICHA DESARROLLO SOCIAL </h5>  <h4 hidden class="ml-2" id="noResidente" style="background:red;color:white;" > -- NO RESIDENTE --</h4>
+        </button>
+      </div>
+      <div class="modal-body formulario">
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label for="Nombre">Nombre</label>
+                  <input readonly required  type="text" class="form-control" id="nombre_social" name="nombre"  data-toggle="tooltip" data-placement="bottom" title="Ej. Juan">
+                </div>
+              
+                <div class="form-group col-md-3">
+                  <label for="dni">DNI</label>
+                  <input readonly required  type="number" class="form-control" id="dni_social" name="dni" data-toggle="tooltip" data-placement="bottom" title="Sin puntos ni coma">
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="estado_civil_social">Estado Civil</label>
+                  <input readonly type="text" id="estado_civil_social" class="form-control" >
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                  <input readonly required  type="date" class="form-control" id="fecha_nacimiento_social" name="fecha_nacimiento">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="domicilio">Domicilio</label>
+                  <input readonly required  type="text" class="form-control" id="domicilio_social" name="domicilio" data-toggle="tooltip" data-placement="bottom" title="Av. Siempreviva 742">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="barrio">Barrio</label>
+                  <input readonly type="text" id="barrio_social" class="form-control" >
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="ocupacion">Ocupacion</label>
+                  <input readonly type="text"  id="ocupacion_social" class="form-control" >
+                </div>
+              </div>
+              <div class="form-row">
+              <div class="form-group col-md-3">
+                  <label for="lnacimiento">Lugar de Nacimiento</label>
+                  <input readonly required  type="text" class="form-control" id="lnacimiento_social"  name="lnacimiento" >
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="telefono">Tel.</label>
+                  <input readonly required  type="number" class="form-control" id="telefono_social"  name="telefono" >
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="celular">Cel</label>
+                  <input readonly  type="number" class="form-control" id="celular_social" name="celular">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="email">E-mail</label>
+                  <input readonly  type="text" class="form-control" id="email_social" name="email" data-toggle="tooltip" data-placement="bottom" title="Ej. juan@softweare.com.ar">
+                </div>
+              </div>              
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="anios">Años en MH</label>
+                  <input readonly required  type="text" class="form-control" id="anios_social" name="anios" data-toggle="tooltip" data-placement="bottom" title="Ej: 15">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="ingresos">Ingresos</label>
+                  <input readonly  type="text" class="form-control" id="ingresos_social" name="ingresos" data-toggle="tooltip" data-placement="bottom" title="Monto de ingresos. Indicar siempre un monto.">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="nacionalidad">Nacionalidad</label>
+                  <input readonly type="text" class="form-control" id="nacionalidad_social" name="nacionalidad" data-toggle="tooltip" data-placement="bottom" title="Ej: Argentina/Chilena/Italiana (La nacionalidad siempre va en femenino)">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="educacion">Educacion</label>
+                  <input readonly  type="text" id="educacion_social" class="form-control" >
+
+                </div> 
+                <div class="form-group col-md-4">
+                  <label for="institucion">Institucion</label>
+                  <input readonly type="text" id="institucion_social" class="form-control" >
+
+                </div> 
+                <div class="form-group col-md-4">
+                  <label for="otra">Otra Inst.</label>
+                  <input readonly type="text" id="otra_social" class="form-control" >
+                </div>                
+              </div>
+
+              <ul id="menu-2" class="nav nav-tabs" style="cursor:pointer;">
+                <li  class="nav-item">
+                  <a class="nav-link item2" href="#Grupo">Grupo</a>                  
+                </li>
+             </ul>
+
+              <!-- Paneles de pestañas ocultos -->             
+            <div class="tab-content border mb-3">   
+             <div id="Grupo" class="container tab-pane fade"><br>
+              <div class="table-responsive">
+                <table class="table table-hover" id="tabla-grupo">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">Vinculo</th>
+                        <th scope="col">F. Nacim.</th>
+                        <th scope="col">Ocupacion</th>
+                        <th scope="col">Ingresos</th>
+                        <th scope="col">N. Educativo</th>
+                        <th scope="col">Institucion</th>
+                        <th scope="col">Otra</th>
+                      </tr>
+                    </thead>
+                    <tbody>                      
+                    </tbody>
+                  </table>
+              </div>
+             </div>        
+              <div id="Observaciones" class="container tab-pane fade mb-2"><br>
+                <p class="lead">Recuerde que estas observaciones son de uso INTERNO y que no se veran reflejadas en la encuesta</p>
+                 <textarea id="texto_observaciones" class="form-control"></textarea>
+              </div>               
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+       </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!--Aca voy a poner un form flotante para pedir DNI al cargar nueva persona-->
+<div class="modal" id="PedirDNI" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Persona</h5>
+      </div>
+      <div class="modal-body">
+        <label for="dni_nuevo">Ingrese DNI</label>
+        <input type="number" id="dni_nuevo" placeholder="Ejempo: 12345678" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="CerrarPedirDNI();">Cerrar</button>
+        <button type="button" class="btn btn-primary"  onclick="BuscarDNI();" >Buscar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a id="flotante" class='flotante' href='InicioTodos.html' ><img src='home.png'/></a>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" ></script> 
+    <script src="mujeres.js" ></script> 
+    <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $(document).ready(function(){
+        $(".nav-tabs a").click(function(){
+          $(this).tab('show');
+        });
+        $.post("ObtenerRol.php")
+        .then((r)=>{
+          if(r==1){
+            $("#flotante").prop('hidden',false);
+          }else{
+            $("#flotante").prop('hidden',true);
+          }
+        })
+        });
+    </script>
+</body>
+</html>

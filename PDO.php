@@ -3,7 +3,7 @@
 session_start();
 
 
-if(htmlspecialchars($_SERVER['PHP_SELF']) != "/refresh_desarrollo/index.php"){
+if(htmlspecialchars($_SERVER['PHP_SELF']) != "/desarrollo/refresh_desarrollo/index.php"){
 	if(!isset($_SESSION['usuario'])){
 		echo '<script>location.href="index.php";</script>';
 	}

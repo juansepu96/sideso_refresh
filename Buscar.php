@@ -13,6 +13,20 @@ $editarenc='false';
 
 $_SESSION['busqueda.array']=array();
 
+function ObtenerUltimaEncuesta($id,$conexion){
+    $ObtenerDni=$conexion->prepare("SELECT * from encuestas WHERE dni_titular=:dni ORDER BY fecha DESC LIMIT 1");
+		$ObtenerDni->bindParam(':dni',$id);
+		$ObtenerDni->execute();
+
+	foreach ($ObtenerDni as $DNI) {
+        $fecha= strtotime($DNI['fecha']);
+        $anio=date("Y",$fecha);
+        $rta=$anio;
+
+  }
+  return $rta;
+}
+
 
 if(isset($_POST['buscarr'])){
 	$abuscar=$_POST['buscar'];
@@ -25,7 +39,7 @@ if(isset($_POST['buscarr'])){
 		$dni=$persona['dni'];
 		$nombre=strtoupper($persona['nombre']);
 		$fnacimiento=$persona['fnacimiento'];		
-		$ultima_encuesta=$persona['ult_encuesta'];
+		$ultima_encuesta=ObtenerUltimaEncuesta($dni,$conexion);
 		$detalle_busqueda=array($ID,$dni,$nombre,$fnacimiento,$ultima_encuesta);
 		array_push($_SESSION['busqueda.array'], $detalle_busqueda);
 	}
@@ -43,7 +57,7 @@ if(isset($_POST['buscarr'])){
 		$tel_fijo=$persona['tel_fijo'];
 		$tel_cel=$persona['tel_cel'];
 		$email=$persona['email'];
-		$ultima_encuesta=$persona['ult_encuesta'];
+		$ultima_encuesta=ObtenerUltimaEncuesta($dni,$conexion);
 		$detalle_busqueda=array($ID,$dni,$nombre,$fnacimiento,$ultima_encuesta);
 		array_push($_SESSION['busqueda.array'], $detalle_busqueda);
 	}
@@ -61,7 +75,7 @@ if(isset($_POST['buscarr'])){
       $dni=$persona['dni'];
       $nombre=strtoupper($persona['nombre']);
       $fnacimiento=$persona['fnacimiento'];		
-      $ultima_encuesta=$persona['ult_encuesta'];
+      $ultima_encuesta=ObtenerUltimaEncuesta($dni,$conexion);
       $detalle_busqueda=array($ID,$dni,$nombre,$fnacimiento,$ultima_encuesta);
       array_push($_SESSION['busqueda.array'], $detalle_busqueda);
 		}
@@ -83,7 +97,28 @@ if(isset($_POST['buscarr'])){
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">    
+    <script src="./cute-alert.js"></script>
+    <style>
+      .flotante {
+        position: fixed; /* Fixed/sticky position */
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 20px; /* Place the button 30px from the right */
+        z-index: 99; /* Make sure it does not overlap */
+        border: none; /* Remove borders */
+        outline: none; /* Remove outline */
+        background-color: white; /* Set a background color */
+        color: white; /* Text color */
+        cursor: pointer; /* Add a mouse pointer on hover */
+        padding: 5px; /* Some padding */
+        border-radius: 10px; /* Rounded corners */
+        width:50px;
+      }
+      .flotante img{
+        width:100%;
+      }
+    </style>
     <title>Buscar Personas - SiDeSo v2.0</title>
 </head>
 <body>
@@ -139,6 +174,7 @@ if(isset($_POST['buscarr'])){
         <div style="float:right;" class="mb-2">
           <button type="button" name="nueva_persona" class="btn btn-primary"  onclick="NuevaPersona();"><i class="fas fa-plus-circle fa-1x"></i> Nueva Persona </button> <br>
         </div>
+        <div class="table-responsive">
             <table class="table table-hover mt-2" style="color:white;">
                  <thead>
                         <tr class="text-center">
@@ -164,6 +200,7 @@ if(isset($_POST['buscarr'])){
                         <?php } ?>	
                 </tbody>
             </table>
+                        </div>
         </div>
     <?php } ?>
 
@@ -346,6 +383,7 @@ if(isset($_POST['buscarr'])){
             <div class="tab-content border mb-3">   
              <div id="Grupo" class="container tab-pane fade"><br>
              <button type="button" class="btn btn-primary mb-2" onclick="NuevoIntegrante();">Nuevo Integrante</button>  <br>
+             <div class="table-responsive">
               <table class="table table-hover" id="tabla-grupo">
                   <thead>
                     <tr>
@@ -363,10 +401,12 @@ if(isset($_POST['buscarr'])){
                   <tbody>                      
                   </tbody>
                 </table>
+                        </div>
              </div>        
               
               <div id="Asistencias" class="container tab-pane fade"><br>
               <button type="button" class="btn btn-primary mb-2" onclick="NuevaAsistencia();">Nueva Asistencia</button>  <br>
+              <div class="table-responsive">
                 <table class="table table-hover" id="tabla-asistencias">
                   <thead>
                     <tr>
@@ -381,10 +421,11 @@ if(isset($_POST['buscarr'])){
                   <tbody>                      
                   </tbody>
                 </table>
+                        </div>
               </div>
               <div id="Documentos" class="container tab-pane fade"><br>
                   <button type="button" class="btn btn-primary mb-2" onclick="NuevoDocumento();">Nuevo Documento</button>  <br>
-
+                  <div class="table-responsive">
                   <table class="table table-hover" id="tabla-documentos">
                   <thead>
                     <tr>
@@ -397,8 +438,10 @@ if(isset($_POST['buscarr'])){
                   <tbody>                      
                   </tbody>
                 </table>
+                        </div>
               </div>
               <div id="Encuestas" class="container tab-pane fade"><br>
+              <div class="table-responsive">
                  <table class="table table-hover" id="tabla-encuestas" >
                  <button type="button" class="btn btn-primary mb-2" onclick="NuevaEncuesta();">Nueva Encuesta</button>  <br>
 
@@ -414,6 +457,7 @@ if(isset($_POST['buscarr'])){
                   <tbody>                      
                   </tbody>
                 </table>
+                        </div>
               </div>       
               <div id="Observaciones" class="container tab-pane fade mb-2"><br>
                 <p class="lead">Recuerde que estas observaciones son de uso INTERNO y que no se veran reflejadas en la encuesta</p>
@@ -537,7 +581,7 @@ if(isset($_POST['buscarr'])){
               </div>     
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="VerIntegrante" onclick="CerrarVerIntegrante();">Cerrar</button>
         <button hidden type="button" name="actualizar_familiar" id="actualizar_familiar" class="btn btn-primary" onclick="ActualizarFamiliar();">Actualizar</button>
         <button hidden type="button" name="borrar_familiar" id="borrar_familiar" class="btn btn-primary bg-danger" onclick="BorrarFamiliar();">Borrar</button>
         <button hidden type="button" name="nuevo_familiar" id="nuevo_familiar" class="btn btn-primary" onclick="NuevoFamiliar();">Guardar</button>
@@ -554,7 +598,7 @@ if(isset($_POST['buscarr'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Ver Imagen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="MostrarImagen" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -562,7 +606,7 @@ if(isset($_POST['buscarr'])){
         <img id="ImagenHC_1" height="400px" width="100%">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="MostrarImagen" onclick="CerrarVerDocumento();">Cerrar</button>
       </div>
     </div>
   </div>
@@ -607,7 +651,7 @@ if(isset($_POST['buscarr'])){
     <div class="modal-content" style="background:#FCFBC9;">
       <div class="modal-header">
         <h5 class="modal-title">Abrir Asistencia</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="AbrirAsistencia" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -667,7 +711,7 @@ if(isset($_POST['buscarr'])){
           
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" onclick="CerrarVerAsistencia();">Cerrar</button>
         <button hidden type="button" class="btn btn-primary" id="actualizar_asistencia" onclick="ActualizarAsistencia();">Actualizar</button>
         <button hidden type="button" class="btn btn-primary bg-danger" id="borrar_asistencia" onclick="BorrarAsistencia();">Borrar</button>
         <button hidden type="button" class="btn btn-primary" id="guardar_asistencia" onclick="GuardarAsistencia();">Guardar</button>
@@ -684,7 +728,7 @@ if(isset($_POST['buscarr'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Ingrese contraseña de Supervisor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="Acceder" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -699,7 +743,7 @@ if(isset($_POST['buscarr'])){
           <input type="password" id="password" name="password" class="form-control">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="Acceder" onclick="CerrarAcceder();">Cerrar</button>
         <button type="button" class="btn btn-primary" style="background:red;" onclick="EliminarDefinitivo();">Eliminar</button>
 
       </div>
@@ -714,7 +758,7 @@ if(isset($_POST['buscarr'])){
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Ingrese contraseña de Supervisor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="Acceder2" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -728,7 +772,7 @@ if(isset($_POST['buscarr'])){
           <input type="password" id="password2" name="password2" class="form-control">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="Acceder2" onclick="CerrarAcceder2();">Cerrar</button>
         <button type="button" class="btn btn-primary" style="background:red;" onclick="EliminarEncuestaDefinitivo();">Eliminar</button>
 
       </div>
@@ -742,7 +786,7 @@ if(isset($_POST['buscarr'])){
     <div class="modal-content" style="background:#FCFBC9;">
       <div class="modal-header">
         <h5 class="modal-title text-center">Nueva Encuesta <?php echo date("Y");?></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="NuevaEncuesta" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -901,7 +945,7 @@ if(isset($_POST['buscarr'])){
         </form>                      
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="NuevaEncuesta" onclick="CerrarNuevaEncuesta();">Cerrar</button>
         <button hidden type="button" name="editar_encuesta" id="editar_encuesta" class="btn btn-primary bg-danger" onclick="ActualizarEncuesta();">Actualizar Encuesta</button>
         <button type="button" name="nueva_encuesta" id="nueva_encuesta" class="btn btn-primary" onclick="GuardarEncuesta();">Guardar Encuesta</button>
       </div>
@@ -909,6 +953,7 @@ if(isset($_POST['buscarr'])){
     </div>
   </div>       
 </div>
+
    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -924,7 +969,7 @@ if(isset($_POST['buscarr'])){
       $(".nav-tabs a").click(function(){
         $(this).tab('show');
       });
-      });
+     
     </script>
 </body>
 </html>

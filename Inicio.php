@@ -20,7 +20,6 @@ $hora=intval($hora);
 						}
 				}
 		}
-
 }
 
 ?>
@@ -39,7 +38,7 @@ $hora=intval($hora);
    
     <title>Menu Principal - SiDeSo v2.0</title>
   </head>
-  <body onload="$('#MostrarMensajes').modal('show');">
+  <body>
       <div class="container">
                           
          <div class="d-flex justify-content-center h-100">   
