@@ -966,9 +966,10 @@ if(isset($_POST['buscarr'])){
       })
 
       $(document).ready(function(){
-      $(".nav-tabs a").click(function(){
-        $(this).tab('show');
-      });
+        $(".nav-tabs a").click(function(){
+          $(this).tab('show');
+        });
+      })
      
     </script>
 </body>

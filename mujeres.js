@@ -257,6 +257,7 @@ function ActualizarPersona(){
         })
         CerrarVerPersona();
         AbrirPersona(id);
+        CargarPersonas();
        }else{
         cuteToast({
             type: "error", // or 'info', 'error', 'warning'
@@ -387,6 +388,7 @@ function GuardarPersona(){
                 timer: 3000
             });
             CerrarVerPersona();
+            CargarPersonas();
             AbrirPersona(id);
         })
     }else{

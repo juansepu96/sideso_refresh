@@ -19,7 +19,7 @@ if (isset($_POST['entrar'])) {
           }else if($user['tipo']==2){
             echo '<script>location.href="Inicio.php";</script>';
           }else{
-            echo '<script>location.href="InicioMujer.php";</script>';
+            echo '<script>location.href="InicioMujeres.html";</script>';
           }
           break;	
 			}
