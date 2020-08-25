@@ -55,6 +55,9 @@
       <li class="nav-item active">
         <a class="nav-link" href="InicioMujeres.html">Inicio</a>
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="agenda.html">Agenda</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="Cerrar.php">Cerrar Sesion</a>
       </li> 
@@ -86,7 +89,6 @@
               <td>DNI</td>
               <td>Nombre</td>
               <td>F. Nacimiento</td>
-              <td>Ult. Intervencion</td>
               <td>En Desarrollo</td>
            </tr>
         </thead>
@@ -161,6 +163,7 @@
                       <th scope="col">Fecha</th>
                       <th scope="col">Descripcion</th>
                       <th scope="col">Intervino</th>
+                      <th scope="col">Adjunto</th>
                     </tr>
                   </thead>
                   <tbody>                      
@@ -223,6 +226,14 @@
                 <label for="detalle_inter">Descripcion</label>
                 <textarea id="detalle_inter" class="form-control">  </textarea>
             </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <form id="formDocumento">
+              <label for="doc_intervencion">Documento</label>
+              <input type="file" required class="form-control" id="doc_intervencion" name="doc_intervencion" >
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

@@ -12,32 +12,18 @@ function CargarEnTabla(rta){
                     '<td onclick="AbrirPersona('+id+');">' + e['DNI'] + '</td>' +
                     '<td onclick="AbrirPersona('+id+');" >' + e['nombre'] + '</td>'+
                     '<td onclick="AbrirPersona('+id+');">' + fecha + '</td>';
-                    var a = (id) =>{
-                        $.post("./php/VerificarUltIntervencion.php",{valorBusqueda:id})
-                        .then((date)=>{
-                            htmlTags=htmlTags+'<td>'+date+'</td>';
-                        });
-                        }
-                    var b = (dni) => {
-                        $.when( a(id) ).done(()=>{
-                            $.post("./php/VerificarEncuesta.php",{valorBusqueda:e.DNI})
-                            .then((result)=>{
-                                if(result=="SI"){
-                                    htmlTags=htmlTags+'<td style="color:green; font-weight: bold;" onclick="AbrirFichaSocial('+dni+');">SI</td></tr>';
-                                }else{
-                                    htmlTags=htmlTags+'<td style="color:red; font-weight: bold;">NO</td></tr>';
-                                }
-                                $('#tabla-personas tbody').append(htmlTags);
-                               });
-                        })
-                    }
-                    b(dni);
-                    
-
+                    $.post("./php/VerificarEncuesta.php",{valorBusqueda:dni})
+                        .then((result)=>{
+                            if(result=="SI"){
+                                htmlTags=htmlTags+'<td style="color:green; font-weight: bold;" onclick="AbrirFichaSocial('+dni+');">SI</td></tr>';
+                            }else{
+                                htmlTags=htmlTags+'<td style="color:red; font-weight: bold;">NO</td></tr>';
+                            }
+                            $('#tabla-personas tbody').append(htmlTags);
+                    });
         })
     }
 }
-
 
 function CargarPersonas(){
     $.post("./php/CargarPersonasMujeres.php")
@@ -99,7 +85,15 @@ function ObtenerIntervenciones(id){
             var htmlTags = '<tr class="filaIntervenciones" >' +
             '<td>' + fecha + '</td>' +
             '<td>' + el.detalle + '</td>'+
-            '<td>' + el.intervino + '</td></tr>';
+            '<td>' + el.intervino + '</td>';
+            if(el.doc){
+                doc=el.doc;
+                doc=doc.substring(1);
+                htmlTags=htmlTags+'<td class="text-center">' + '<a href="'+doc+'" target="_blank"> DESCARGAR </a> </td></tr>';
+            }else{
+                htmlTags=htmlTags+'<td class="text-center">----</td></tr>';
+
+            }
             $('#tabla-intervenciones tbody').append(htmlTags);
         })
     })
@@ -126,13 +120,24 @@ function CargarIntervencion(){
     datos=JSON.stringify(datos);
     $.post("./php/NuevaIntervencion.php",{valorBusqueda:datos})
     .then(()=>{
+        var formData = new FormData(document.getElementById("formDocumento"));
+        formData.append("id", id);
+            $.ajax({
+                url: "./php/recibe2.php",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
         cuteToast({
             type: "success", // or 'info', 'error', 'warning'
             message: "Intervencion cargada con éxito!",
             timer: 3000
-          })
-          $("#fecha_inter").val("");
-          $("#detalle_inter").val("");
+        })
+        $("#fecha_inter").val("");
+        $("#detalle_inter").val("");
         CerrarIntertenvencion();
         $('#VerFicha').modal('hide');
         AbrirPersona(id);
