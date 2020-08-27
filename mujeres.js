@@ -119,9 +119,9 @@ function CargarIntervencion(){
     datos.push(fecha,detalle,id);
     datos=JSON.stringify(datos);
     $.post("./php/NuevaIntervencion.php",{valorBusqueda:datos})
-    .then(()=>{
+    .then((id2)=>{
         var formData = new FormData(document.getElementById("formDocumento"));
-        formData.append("id", id);
+        formData.append("id", id2);
             $.ajax({
                 url: "./php/recibe2.php",
                 type: "post",

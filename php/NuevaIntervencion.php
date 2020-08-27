@@ -15,6 +15,16 @@ $InsertarIntervencion -> bindParam(':intervino',$intervino);
 
 $InsertarIntervencion -> execute();
 
+//Obtner iD
+
+$ObtenerID=$conexion->query("SELECT * from intervenciones ORDER BY ID DESC LIMIT 1");
+foreach($ObtenerID as $ID){
+    $id=$ID['ID'];
+break;
+}
+
+echo $id;
+
 
 
 ?>
