@@ -15,7 +15,7 @@ function CargarEnTabla(rta){
                     $.post("./php/VerificarEncuesta.php",{valorBusqueda:dni})
                         .then((result)=>{
                             if(result=="SI"){
-                                htmlTags=htmlTags+'<td style="color:green; font-weight: bold;" onclick="AbrirFichaSocial('+dni+');">SI</td></tr>';
+                                htmlTags=htmlTags+'<td style="color:green; font-weight: bold;" onclick="AbrirFichaSocial('+e.DNI+');">SI</td></tr>';
                             }else{
                                 htmlTags=htmlTags+'<td style="color:red; font-weight: bold;">NO</td></tr>';
                             }
