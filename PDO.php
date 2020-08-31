@@ -9,9 +9,7 @@ $date=date("Y-m-d");
 $time=date("H:i:s");
 
 try {
-	$conexion = new PDO('mysql:host=localhost;dbname=dsocial','root','');
-
-
+	$conexion = new PDO('mysql:host=localhost;dbname=dsocial;charset=utf8','root','');
 }catch(PDOException $e){
 		echo "Error" . $e->getMessage();
 

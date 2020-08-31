@@ -1,7 +1,9 @@
 function CargarEnTabla(fecha){
     $(".filaCitas").remove();
+    fecha=JSON.stringify(fecha);
     $.post("./php/CargarCitas.php",{valorBusqueda:fecha})
     .then((rta) => {
+        console.log(rta);
         array=JSON.parse(rta);
         if(array.length>0){
                 array.map((e)=>{

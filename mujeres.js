@@ -61,9 +61,10 @@ function AbrirPersona(id=null){
                 $("#domicilio").val(e.domicilio);
                 $("#telefono").val(e.telefono);
                 $("#texto_observaciones").val(e.obs);
+                ObtenerIntervenciones(e.ID);
+                CargarDocumentos(e.ID);
             })
-            ObtenerIntervenciones(id);
-            CargarDocumentos(id);
+           
         })
     }else{
         $("#observaciones").prop('hidden',true);
