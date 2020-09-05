@@ -77,6 +77,7 @@ function AbrirPersona(id=null){
 }
 
 function ObtenerIntervenciones(id){
+    $(".filaIntervenciones").remove();
     $.post("./php/ObtenerIntervenciones.php",{valorBusqueda:id})
     .then((response)=>{
         response=JSON.parse(response);
@@ -90,14 +91,47 @@ function ObtenerIntervenciones(id){
             if(el.doc){
                 doc=el.doc;
                 doc=doc.substring(1);
-                htmlTags=htmlTags+'<td class="text-center">' + '<a href="'+doc+'" target="_blank"> DESCARGAR </a> </td></tr>';
+                htmlTags=htmlTags+'<td class="text-center">' + '<a href="'+doc+'" target="_blank"> DESCARGAR </a> </td>';
             }else{
-                htmlTags=htmlTags+'<td class="text-center">----</td></tr>';
-
+                htmlTags=htmlTags+'<td class="text-center">----</td>';
             }
+            htmlTags=htmlTags+'<td>' + `<button type="button" class="b-0 p-1 btn btn-primary bg-danger" onclick="EliminarIntervencion('`+el.ID+`')"> <i class="far fa-trash-alt fa-2x"></i>  </button>` + '</td></tr>';
             $('#tabla-intervenciones tbody').append(htmlTags);
         })
     })
+}
+
+function EliminarIntervencion(id){
+    
+    conf = confirm("Desea realmente eliminar esta intervencion?");
+    if(conf){
+        $.post("./php/EliminarIntervencion.php",{valorBusqueda:id})
+        .then((rta)=>{
+            if(rta=="OK"){
+                cuteToast({
+                    type: "success", // or 'info', 'error', 'warning'
+                    message: "intervencion eliminada con éxito.",
+                    timer: 5000
+                });
+                var persona = $( "#id_persona" ).val();
+                console.log(persona);
+                ObtenerIntervenciones(persona);              
+
+            }else{
+                cuteToast({
+                    type: "error", // or 'info', 'error', 'warning'
+                    message: "Error al eliminar internvencion.",
+                    timer: 5000
+                });
+            };
+         });
+    }else{
+        cuteToast({
+            type: "info", // or 'info', 'error', 'warning'
+            message: "Accion cancelada.",
+            timer: 5000
+        });
+    }
 }
 
 function NuevaIntervencion(){
