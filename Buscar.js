@@ -579,23 +579,25 @@ function EliminarEncuestaDefinitivo(){
 
 function NuevaEncuesta(){
     persona = $("#dni").val();
-    $.post("ObtenerUltimaEncuesta.php",{valorBusqueda:persona}, function(rta) {
-        ultima=rta;
-    });
-    var fecha = new Date();
-    var ano = fecha.getFullYear();
-    if(ultima==ano){
-        cuteToast({
-            type: "error", // or 'info', 'error', 'warning'
-            message: "ERROR. Ya existe una encuesta del año en curso.",
-            timer: 5000
-        });
-    }else{
-        $("#NuevaEncuesta").modal('show');
-        $("#nueva_encuesta").prop('hidden',false);
+    $.post("ObtenerUltimaEncuesta.php",{valorBusqueda:persona})
+    .then((rta) =>{
+        var ultima=rta;
+        var fecha = new Date();
+        var ano = fecha.getFullYear();
+        if(ultima==ano){
+            cuteToast({
+                type: "error", // or 'info', 'error', 'warning'
+                message: "ERROR. Ya existe una encuesta del año en curso.",
+                timer: 5000
+            });
+        }else{
+            $("#NuevaEncuesta").modal('show');
+            $("#nueva_encuesta").prop('hidden',false);
             $("#editar_encuesta").prop('hidden',true);
-        $("#form-encuesta")[0].reset();
-    }
+            $("#form-encuesta")[0].reset();
+        }
+    });
+    
 
 }
 
