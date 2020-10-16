@@ -34,16 +34,20 @@
       .flotante img{
         width:100%;
       }
+       td:hover{
+           cursor:pointer;
+
+       }
     </style>
     <script src="https://momentjs.com/downloads/moment.min.js"></script> <!--Moments Library-->
     <script src="./cute-alert.js"></script>
-   <title>Personas - Direccion de Mujeres - S.D.S.</title>
+   <title>Personas - Servicio Local - S.D.S.</title>
 </head>
 <body onload="CargarPersonas();">
 
 <nav class="navbar text-center navbar-expand-lg navbar-dark bg-dark navbar-toggleable-sm sticky-top">
-        <a class="navbar-brand" href="InicioMujeres.html">
-            Direccion de Mujeres - Sec. de Desarrollo Social.
+        <a class="navbar-brand" href="InicioSLocal.html">
+            Servicio Local - Sec. de Desarrollo Social.
          </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -53,10 +57,13 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav text-center">
       <li class="nav-item active">
-        <a class="nav-link" href="InicioMujeres.html">Inicio</a>
+        <a class="nav-link" href="InicioSLocal.html">Inicio</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="agenda.html">Agenda</a>
+        <a class="nav-link" href="agendaSlocal.html">Agenda</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="listados.html">Listados</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="Cerrar.php">Cerrar Sesion</a>
@@ -87,7 +94,8 @@
         <thead>
            <tr class="text-center">
               <td>DNI</td>
-              <td>Nombre</td>
+              <td onclick="OrdenarPorLegajo();">Legajo</td>
+              <td onclick="CargarPersonas();">Nombre</td>
               <td>F. Nacimiento</td>
               <td>En Desarrollo</td>
            </tr>
@@ -113,11 +121,14 @@
         <form id="formVerFicha">
             <input hidden type="number" class="form-control" id="id_persona" name="id_persona"  placeholder="Ej: Juan">
               <div class="form-row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-3">
                   <label for="Nombre">Nombre</label>
                   <input  required  type="text" class="form-control" id="nombre" name="nombre"  data-toggle="tooltip" data-placement="bottom" title="Ej. Juan">
                 </div>
-              
+                <div class="form-group col-md-3">
+                    <label for="Legajo">Legajo</label>
+                    <input  required  type="text" class="form-control" id="legajo" name="legajo"  data-toggle="tooltip" data-placement="bottom" title="Ej. Juan">
+                </div>              
                 <div class="form-group col-md-3">
                   <label for="dni">DNI</label>
                   <input  readonly  type="number" class="form-control" id="dni" name="dni" data-toggle="tooltip" data-placement="bottom" title="Sin puntos ni coma">
@@ -153,15 +164,13 @@
 
               <!-- Paneles de pestañas ocultos -->             
             <div class="tab-content border mb-3">   
-              
               <div id="intervenciones" class="container tab-pane fade"><br>
-                <button type="button" class="btn btn-primary mb-2" onclick="NuevaIntervencion();">Nueva Intervencion</button>  <br>
+                <button type="button" class="btn btn-primary mb-2" onclick="NuevaIntervencion();">Nueva Intervencion</button><br>
                 <div class="table-responsive">
                   <table class="table table-hover" id="tabla-intervenciones">
                   <thead>
                     <tr>
                       <th scope="col">Fecha</th>
-                      <th scope="col">Descripcion</th>
                       <th scope="col">Intervino</th>
                       <th scope="col">Adjunto</th>
                       <th scope="col">Eliminar</th>
@@ -453,6 +462,38 @@
   </div>
 </div>
 
+<!--Aca voy a poner un form flotante para ver un modal de la intervencion-->
+<div class="modal" id="verIntervencion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ver detalles de la Intervencion</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group col-xs-12 col-md-12 col-lg-6 col-xl-6">
+                  <label for="fecha_inter_1">Fecha</label>
+                  <input readonly type="date" class="form-control" id="fecha_inter_1">
+                </div>
+                <div class="form-group col-xs-12 col-md-12 col-lg-6 col-xl-6">
+                    <label for="intervino_1">Intervino</label>
+                    <input readonly type="text" class="form-control" id="intervino_1">
+                  </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col s12">
+                    <label for="detalle_inter1">Detalle</label>
+                    <textarea readonly id="detalle_inter1" class="form-control">  </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="CerrarVerIntervencion();">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <a id="flotante" class='flotante' href='InicioTodos.html' ><img src='home.png'/></a>
 
     <!-- Optional JavaScript -->
@@ -460,7 +501,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js" ></script> 
-    <script src="mujeres.js" ></script> 
+    <script src="./js/slocal/servicio.js" ></script> 
     <script>
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()

@@ -13,15 +13,7 @@ if (isset($_POST['entrar'])) {
           $_SESSION['usuario']=$usuario;
           $_SESSION['nombre']=$user['nombre'];
           $_SESSION['role']=$user['tipo'];
-          if($user['tipo']==1){
-
             echo '<script>location.href="InicioTodos.html";</script>';
-          }else if($user['tipo']==2){
-            echo '<script>location.href="Inicio.php";</script>';
-          }else{
-            echo '<script>location.href="InicioMujeres.html";</script>';
-          }
-          break;	
 			}
          }
     if (!isset($_SESSION['usuario'])) 
