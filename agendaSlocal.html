@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" ></script> 
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="./js/slocal/agenda.js" ></script>
     <style>
       .filaCitas:hover{
         cursor: pointer;
@@ -34,6 +40,10 @@
       .flotante img{
         width:100%;
       }
+      .event a {
+        background-color: #5FBA7D !important;
+        color: #ffffff !important;
+          }
     </style>
     <script src="https://momentjs.com/downloads/moment.min.js"></script> <!--Moments Library-->
     <script src="./cute-alert.js"></script>
@@ -74,7 +84,7 @@
     
       <div class="row text-center" style="justify-content: center;">
           <div class="col-6">
-              <input type="date" class="form-control" id="fecha" >
+            <input type="date" class="form-control" id="fecha">
           </div>
           <div class="col-1">
             <button type="submit" onclick="BuscarCitas();" class="btn btn-primary" class="form-control"><i class="fas fa-search fa-1x"></i></button>
@@ -101,7 +111,7 @@
    </div>
 </div>
 
-<!--Aca voy a poner un form flotante para pedir DNI al cargar nueva persona-->
+<!--Aca voy a poner un form flotante para nueva cita-->
 <div class="modal" id="nuevaCita" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
@@ -111,7 +121,7 @@
       <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-md-3">
-              <label for="fecha">Dia</label>
+              <label for="fecha_n">Dia</label>
               <input type="date" class="form-control" id="fecha_n">
             </div>
             <div class="form-group col-md-2">
@@ -120,13 +130,19 @@
             </div>
 
             <div class="form-group col-md-7">
+              <label for="descripcion">Descripcion</label>
+              <input type="text" class="form-control" id="descripcion">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12 ">
               <label for="detalle">Detalle</label>
-              <input type="text" class="form-control" id="detalle">
+              <textarea id="detalle" class="form-control"></textarea>
             </div>
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="GuardarCita();">Guardar</button>
+        <button type="button" id="boton_guardar" class="btn btn-primary" onclick="GuardarCita();">Guardar</button>
         <button type="button" class="btn btn-secondary"  onclick="CerrarCita();" >Cerrar</button>
       </div>
     </div>
@@ -137,10 +153,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js" ></script> 
-    <script src="./js/slocal/agenda.js" ></script> 
+     
     <script>
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()

@@ -3,9 +3,8 @@
 require_once "../../PDO.php";
 
 $datos=$_POST['valorBusqueda'];
-$datos=json_decode($datos);
 
-$GetCitas=$conexion->query("SELECT * from agenda_slocal");
+$GetCitas=$conexion->prepare("SELECT * from agenda_slocal WHERE date=:fecha");
 $GetCitas -> bindParam(':fecha',$datos);
 $GetCitas -> execute();
 

@@ -81,6 +81,7 @@ function AbrirPersona(id=null){
                 $("#domicilio").val(e.domicilio);
                 $("#telefono").val(e.telefono);
                 $("#texto_observaciones").val(e.obs);
+                $("#motivo").val(e.motivo);
                 ObtenerIntervenciones(e.ID);
                 CargarDocumentos(e.ID);
             })
@@ -104,17 +105,17 @@ function ObtenerIntervenciones(id){
         response.forEach((el)=>{
             fecha = moment(el.fecha);
             fecha = fecha.format("DD/MM/YYYY");
-            var htmlTags = '<tr class="filaIntervenciones" onclick="AbrirIntervencion('+el.ID+');" >' +
-            '<td>' + fecha + '</td>' +
-            '<td>' + el.intervino + '</td>';
+            var htmlTags = '<tr class="filaIntervenciones"  >' +
+            '<td onclick="AbrirIntervencion('+el.ID+');">' + fecha + '</td>' +
+            '<td onclick="AbrirIntervencion('+el.ID+');">' + el.intervino + '</td>';
             if(el.doc){
                 doc=el.doc;
                 doc=doc.substring(4);
-                htmlTags=htmlTags+'<td class="text-center">' + '<a href="'+doc+'" target="_blank"> DESCARGAR </a> </td>';
+                htmlTags=htmlTags+'<td>' + '<a href="'+doc+'" target="_blank"> DESCARGAR </a> </td>';
             }else{
-                htmlTags=htmlTags+'<td class="text-center">----</td>';
+                htmlTags=htmlTags+'<td>----</td>';
             }
-            htmlTags=htmlTags+'<td>' + `<button type="button" class="b-0 p-1 btn btn-primary bg-danger" onclick="EliminarIntervencion('`+el.ID+`')"> <i class="far fa-trash-alt fa-2x"></i>  </button>` + '</td></tr>';
+            htmlTags=htmlTags+'<td>' + `<button type="button" class="b-0 p-1 btn btn-primary bg-success mr-2" onclick="ImprimirIntervencion('`+el.ID+`')"> <i class="fas fa-print fa-2x"></i>  </button>`+  `<button type="button" class="b-0 p-1 btn btn-primary bg-danger" onclick="EliminarIntervencion('`+el.ID+`')"> <i class="far fa-trash-alt fa-2x"></i>  </button>` + '</td></tr>';
             $('#tabla-intervenciones tbody').append(htmlTags);
         })
     })
@@ -304,8 +305,9 @@ function ActualizarPersona(){
     legajo = $("#legajo").val();
     telefono = $("#telefono").val();
     obs = $("#texto_observaciones").val();
+    motivo=$("#motivo").val();
     testigo = "@#";
-    datos = id+testigo+nombre+testigo+fecha_n+testigo+domicilio+testigo+telefono+testigo+obs+testigo+legajo;
+    datos = id+testigo+nombre+testigo+fecha_n+testigo+domicilio+testigo+telefono+testigo+obs+testigo+legajo+testigo+motivo;
     $.post("./php/slocal/ActualizarPersona.php",{valorBusqueda:datos})
     .then((rta)=>{
        if(rta=="OK"){
@@ -436,8 +438,9 @@ function GuardarPersona(){
     domicilio = $("#domicilio").val();
     telefono = $("#telefono").val();
     legajo = $("#legajo").val();
+    motivo = $("#motivo").val();
     var datos = [];
-    datos.push(dni,nombre,fnac,domicilio,telefono,legajo);
+    datos.push(dni,nombre,fnac,domicilio,telefono,legajo,motivo);
     datos = JSON.stringify(datos);
     if(dni,nombre,domicilio){
         $.post("./php/slocal/InsertarPersona.php",{valorBusqueda:datos})
@@ -477,4 +480,12 @@ function AbrirIntervencion(id){
 
 function CerrarVerIntervencion(){
     $("#verIntervencion").modal('hide');
+}
+
+function ImprimirIntervencion(id){
+    id2=$("#id_persona").val();
+    $.post("./php/slocal/CargarDatosExportar.php",{valorBusqueda:id,valorBusqueda2:id2})
+    .then(()=>{
+        window.open("./php/slocal/ImprimirIntervencion.php", '_blank');
+    })
 }

@@ -1,20 +1,19 @@
 function CargarEnTabla(fecha){
     $(".filaCitas").remove();
-    fecha=JSON.stringify(fecha);
+    
     $.post("./php/slocal/CargarCitas.php",{valorBusqueda:fecha})
     .then((rta) => {
-        console.log(rta);
         array=JSON.parse(rta);
         if(array.length>0){
                 array.map((e)=>{
                 hora = e.time;
                 hora=hora.substring(0,5);
-                    var htmlTags = '<tr class="filaCitas" >' +
+                    var htmlTags = '<tr class="filaCitas" onclick="AbrirCita('+e.ID+');">' +
                         '<td>' + hora + '</td>' +
-                        '<td >' + e.detail + '</td>'+
+                        '<td >' + e.description + '</td>'+
                         '<td>' + e.intervino + '</td>';
                         $('#tabla-citas tbody').append(htmlTags);
-                })
+                });                
         }
     });
 }
@@ -34,6 +33,11 @@ function BuscarCitas(){
 }
 
 function NuevaCita(){
+    $("#fecha_n").prop('readonly',false);
+    $("#hora").prop('readonly',false);
+    $("#descripcion").prop('readonly',false);
+    $("#detalle").prop('readonly',false);
+    $("#boton_guardar").prop('hidden',false);
     $('#nuevaCita').modal('show');
 }
 
@@ -47,9 +51,10 @@ function CerrarCita(){
 function GuardarCita(){
     fecha=$("#fecha_n").val();
     hora=$("#hora").val();
+    descripcion=$("#descripcion").val();
     detalle=$("#detalle").val();
     datos=[];
-    datos.push(fecha,hora,detalle);
+    datos.push(fecha,hora,descripcion,detalle);
     datos=JSON.stringify(datos);
     console.log(datos);
     if(fecha && hora && detalle){
@@ -71,4 +76,22 @@ function GuardarCita(){
         });
     }
     
+}
+
+function AbrirCita(id){
+    $.post("./php/slocal/ObtenerCita.php",{valorBusqueda:id})
+    .then((rta)=>{
+        rta=JSON.parse(rta);
+        rta=rta[0];
+        $("#fecha_n").val(rta.date);
+        $("#hora").val(rta.time);
+        $("#descripcion").val(rta.description);
+        $("#detalle").val(rta.detail);
+        NuevaCita();
+        $("#fecha_n").prop('readonly',true);
+        $("#hora").prop('readonly',true);
+        $("#descripcion").prop('readonly',true);
+        $("#detalle").prop('readonly',true);
+        $("#boton_guardar").prop('hidden',true);
+    })
 }
