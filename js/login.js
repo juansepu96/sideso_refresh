@@ -51,16 +51,16 @@ function CargarAccesos(){
               html=mujer;
             break;
             case 4:
-              html=local;
+              html=servicio;
             break;
             case 5:
-              html=desarrollo+local;
+              html=desarrollo+servicio;
             break;
             case 6:
               html=desarrollo+mujer;
             break;
             case 7:
-              html=mujer+local;
+              html=mujer+servicio;
             break;
         }
         $("#logos").html(html);
