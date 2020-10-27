@@ -176,6 +176,7 @@
                   <thead>
                     <tr>
                       <th scope="col">Fecha</th>
+                      <th scope="col">Tipo</th>
                       <th scope="col">Intervino</th>
                       <th scope="col">Adjunto</th>
                       <th scope="col">Acciones</th>
@@ -233,15 +234,22 @@
       </div>
       <div class="modal-body">
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-6">
               <label for="fecha_inter">Fecha</label>
               <input type="date" class="form-control" id="fecha_inter">
             </div>
-            <div class="form-group col-md-9">
-                <label for="detalle_inter">Descripcion</label>
-                <textarea id="detalle_inter" class="form-control">  </textarea>
+            <div class="form-group col-md-6">
+                <label for="tipo_inter">Tipo</label>
+                <input type="text" id="tipo_inter" class="form-control">
             </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+              <label for="detalle_inter">Descripcion</label>
+              <textarea id="detalle_inter" class="form-control">  </textarea>
+          </div>
+      </div>
         <div class="form-row">
           <div class="form-group col-md-12">
             <form id="formDocumento">
@@ -476,13 +484,17 @@
         </div>
         <div class="modal-body">
             <div class="form-row">
-                <div class="form-group col-xs-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="form-group col-xs-12 col-md-12 col-lg-4 col-xl-4">
                   <label for="fecha_inter_1">Fecha</label>
                   <input readonly type="date" class="form-control" id="fecha_inter_1">
                 </div>
-                <div class="form-group col-xs-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="form-group col-xs-12 col-md-12 col-lg-4 col-xl-4">
                     <label for="intervino_1">Intervino</label>
                     <input readonly type="text" class="form-control" id="intervino_1">
+                  </div>
+                  <div class="form-group col-xs-12 col-md-12 col-lg-4 col-xl-4">
+                    <label for="tipo_1">Tipo</label>
+                    <input readonly type="text" class="form-control" id="tipo_1">
                   </div>
             </div>
             <div class="form-row">

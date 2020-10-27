@@ -107,6 +107,7 @@ function ObtenerIntervenciones(id){
             fecha = fecha.format("DD/MM/YYYY");
             var htmlTags = '<tr class="filaIntervenciones"  >' +
             '<td onclick="AbrirIntervencion('+el.ID+');">' + fecha + '</td>' +
+            '<td onclick="AbrirIntervencion('+el.ID+');">' + el.tipo + '</td>' +
             '<td onclick="AbrirIntervencion('+el.ID+');">' + el.intervino + '</td>';
             if(el.doc){
                 doc=el.doc;
@@ -171,7 +172,8 @@ function CargarIntervencion(){
     datos=[];
     fecha=$("#fecha_inter").val();
     detalle=$("#detalle_inter").val();
-    datos.push(fecha,detalle,id);
+    tipo = $("#tipo_inter").val();
+    datos.push(fecha,detalle,id,tipo);
     datos=JSON.stringify(datos);
     $.post("./php/slocal/NuevaIntervencion.php",{valorBusqueda:datos})
     .then((id2)=>{
@@ -470,6 +472,7 @@ function AbrirIntervencion(id){
         response=JSON.parse(response);
         response.forEach((el)=>{
             $("#fecha_inter_1").val(el.fecha);
+            $("#tipo_1").val(el.tipo);
             $("#intervino_1").val(el.intervino);
             $("#detalle_inter1").val(el.detalle);
         })
